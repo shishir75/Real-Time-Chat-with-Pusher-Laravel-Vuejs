@@ -7,20 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Real Time Chat</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <style>
+        .list-group {
+            overflow-y: scroll;
+            height: 200px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-4 offset-md-4">
+                    <li class="list-group-item active">Chat Room</li>
                     <ul class="list-group">
-                        <li class="list-group-item active">Chat Room</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Morbi leo risus</li>
-                        <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                        <input type="text" class="form-control" placeholder="Type yor message.....">
+                        <message v-for="text in chat.message" :key="text.id">@{{ text }}</message>
                     </ul>
+                    <input type="text" class="form-control" v-model="message" @keyup.enter="send" placeholder="Type your message.....">
                 </div>
 
             </div>
