@@ -23,10 +23,11 @@ class ChatEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($message='', User $user)
+    public function __construct($message, User $user)
     {
         $this->message = $message;
         $this->user = $user->name;
+        $this->dontBroadcastToCurrentUser();
     }
 
     /**

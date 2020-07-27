@@ -1950,7 +1950,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Message",
-  props: ['color'],
+  props: ['color', 'user'],
   computed: {
     className: function className() {
       return 'list-group-item-' + this.color;
@@ -43729,7 +43729,7 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("small", { staticClass: "badge float-right", class: _vm.badgeColor }, [
-      _vm._v("You")
+      _vm._v(_vm._s(_vm.user))
     ])
   ])
 }
@@ -55928,16 +55928,37 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   data: {
     message: '',
     chat: {
-      message: []
+      message: [],
+      user: []
     }
   },
   methods: {
     send: function send() {
+      var _this = this;
+
       if (this.message.length > 0) {
         this.chat.message.push(this.message);
-        this.message = '';
+        this.chat.user.push("you");
+        axios.post('/send', {
+          message: this.message
+        }).then(function (res) {
+          console.log(res); //this.chat.message.push(this.message);
+
+          _this.message = '';
+        })["catch"](function (error) {
+          return console.log(error);
+        });
       }
     }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    Echo["private"]('chat-channel').listen('ChatEvent', function (e) {
+      _this2.chat.message.push(e.message);
+
+      _this2.chat.user.push(e.user);
+    });
   }
 });
 
@@ -55985,8 +56006,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "",
-  cluster: "mt1",
+  key: "59c911c7ee936ca2dd8d",
+  cluster: "ap2",
   forceTLS: true
 });
 
