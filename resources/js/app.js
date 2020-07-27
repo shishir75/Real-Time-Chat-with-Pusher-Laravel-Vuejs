@@ -19,6 +19,7 @@ const app = new Vue({
         chat: {
             message: [],
             user: [],
+            color: [],
         }
     },
     methods: {
@@ -27,11 +28,10 @@ const app = new Vue({
 
                 this.chat.message.push(this.message);
                 this.chat.user.push("you");
+                this.chat.color.push("success");
 
                 axios.post('/send', { message: this.message})
                     .then(res => {
-                        console.log(res);
-                        //this.chat.message.push(this.message);
                         this.message = '';
                     })
                     .catch(error => console.log(error));
@@ -44,6 +44,7 @@ const app = new Vue({
             .listen('ChatEvent', (e) => {
                 this.chat.message.push(e.message);
                 this.chat.user.push(e.user);
+                this.chat.color.push("secondary");
             });
     }
 });

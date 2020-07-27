@@ -55929,7 +55929,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     message: '',
     chat: {
       message: [],
-      user: []
+      user: [],
+      color: []
     }
   },
   methods: {
@@ -55939,11 +55940,10 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       if (this.message.length > 0) {
         this.chat.message.push(this.message);
         this.chat.user.push("you");
+        this.chat.color.push("success");
         axios.post('/send', {
           message: this.message
         }).then(function (res) {
-          console.log(res); //this.chat.message.push(this.message);
-
           _this.message = '';
         })["catch"](function (error) {
           return console.log(error);
@@ -55958,6 +55958,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       _this2.chat.message.push(e.message);
 
       _this2.chat.user.push(e.user);
+
+      _this2.chat.color.push("secondary");
     });
   }
 });
