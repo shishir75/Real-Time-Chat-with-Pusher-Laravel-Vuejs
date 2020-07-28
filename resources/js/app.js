@@ -38,16 +38,31 @@ const app = new Vue({
                 this.chat.color.push("success");
                 this.chat.time.push(this.getTime());
 
-                axios.post('/send', { message: this.message})
+                axios.post('/send', { message: this.message, chat: this.chat})
                     .then(res => {
                         this.message = '';
                     })
                     .catch(error => console.log(error));
             }
         },
+
         getTime() {
             let time = new Date();
             return time.getHours() + ':' + time.getMinutes();
+        },
+
+        getOldMessages() {
+            axios.post('/getOldMessage')
+                .then(response => {
+                    console.log(response.data);
+
+                    if (response.data != '') {
+                        this.chat = response.data;
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         }
     },
     watch: {
@@ -58,13 +73,26 @@ const app = new Vue({
                 });
         }
     },
-    mounted() { // receiving data
+    mounted() {
+
+        this.getOldMessages();
+
+        // receiving data
         Echo.private('chat-channel')
             .listen('ChatEvent', (e) => {
                 this.chat.message.push(e.message);
                 this.chat.user.push(e.user);
                 this.chat.color.push("secondary");
                 this.chat.time.push(this.getTime());
+
+                axios.post('/saveToSession', { chat: this.chat})
+                    .then(response => {
+                        console.log(response);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+
             })
             .listenForWhisper('typing', (e) => {
                 if(e.name != '') {
@@ -78,17 +106,14 @@ const app = new Vue({
         Echo.join(`chat-channel`)
             .here((users) => {
                 this.numberOfUsers = users.length;
-                //console.log(users);
             })
             .joining((user) => {
                 this.numberOfUsers++;
                 this.$toaster.success(user.name +' just join the room')
-                //console.log(user.name);
             })
             .leaving((user) => {
                 this.numberOfUsers--;
                 this.$toaster.error(user.name +' just leave the room')
-                //console.log(user.name);
             });
     }
 });
