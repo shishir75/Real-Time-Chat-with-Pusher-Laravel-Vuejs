@@ -19,7 +19,7 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-sm-10 offset-sm-1">
-                    <li class="list-group-item active">Chat Room</li>
+                    <li class="list-group-item active">Chat Room <span class="badge badge-pill badge-danger ml-3">@{{ numberOfUsers }}</span></li>
                     <ul class="list-group" v-chat-scroll>
                         <message v-for="(text,index) in chat.message" :key="text.index" color="success" :user="chat.user[index]" :color="chat.color[index]" :time="chat.time[index]">@{{ text
                             }}</message>

@@ -7,6 +7,10 @@ import Vue from 'vue'
 import VueChatScroll from 'vue-chat-scroll'
 Vue.use(VueChatScroll)
 
+// For Toast Notification
+import Toaster from 'v-toaster';
+import 'v-toaster/dist/v-toaster.css';
+Vue.use(Toaster, {timeout: 5000});
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('message', require('./components/Message').default);
@@ -23,6 +27,7 @@ const app = new Vue({
             time: [],
         },
         typing: '',
+        numberOfUsers: 0,
     },
     methods: {
         send() { // sending data
@@ -63,11 +68,27 @@ const app = new Vue({
             })
             .listenForWhisper('typing', (e) => {
                 if(e.name != '') {
-                    this.typing = 'typing...';
+                    this.typing = 'someone is typing...';
                 } else {
                     this.typing = '';
                 }
 
+            });
+
+        Echo.join(`chat-channel`)
+            .here((users) => {
+                this.numberOfUsers = users.length;
+                console.log(users);
+            })
+            .joining((user) => {
+                this.numberOfUsers++;
+                this.$toaster.success(user.name +' just join the room')
+                //console.log(user.name);
+            })
+            .leaving((user) => {
+                this.numberOfUsers--;
+                this.$toaster.error(user.name +' just leave the room')
+                //console.log(user.name);
             });
     }
 });
