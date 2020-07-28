@@ -78,7 +78,7 @@ const app = new Vue({
         Echo.join(`chat-channel`)
             .here((users) => {
                 this.numberOfUsers = users.length;
-                console.log(users);
+                //console.log(users);
             })
             .joining((user) => {
                 this.numberOfUsers++;

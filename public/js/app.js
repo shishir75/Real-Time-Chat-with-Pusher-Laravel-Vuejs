@@ -56712,8 +56712,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       }
     });
     Echo.join("chat-channel").here(function (users) {
-      _this2.numberOfUsers = users.length;
-      console.log(users);
+      _this2.numberOfUsers = users.length; //console.log(users);
     }).joining(function (user) {
       _this2.numberOfUsers++;
 
