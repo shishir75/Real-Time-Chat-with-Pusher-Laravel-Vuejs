@@ -21,7 +21,7 @@
                 <div class="col-sm-10 offset-sm-1">
                     <li class="list-group-item active">Chat Room
                         <span class="badge badge-pill badge-danger ml-3">@{{ numberOfUsers }}</span>
-                        <span class="btn btn-sm btn-warning float-right" @click="deleteSession">Delete Chat</span>
+                        <span class="btn btn-sm btn-warning float-right" v-if="chat.message.length > 0" @click="deleteSession">Delete Chat</span>
                     </li>
                     <ul class="list-group" v-chat-scroll>
                         <message

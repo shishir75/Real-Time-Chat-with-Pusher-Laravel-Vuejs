@@ -56702,7 +56702,12 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       var _this3 = this;
 
       axios.post('/deleteSession').then(function (response) {
-        return _this3.$toaster.success('Chat History is Deleted');
+        _this3.$toaster.success('Chat History is Deleted');
+
+        _this3.chat.message = '';
+        _this3.chat.user = '';
+        _this3.chat.color = '';
+        _this3.chat.time = '';
       });
     }
   },

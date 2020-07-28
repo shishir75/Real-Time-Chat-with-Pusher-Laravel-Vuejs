@@ -67,7 +67,13 @@ const app = new Vue({
 
         deleteSession() {
             axios.post('/deleteSession')
-                .then(response => this.$toaster.success('Chat History is Deleted'));
+                .then(response => {
+                    this.$toaster.success('Chat History is Deleted');
+                    this.chat.message = '';
+                    this.chat.user = '';
+                    this.chat.color = '';
+                    this.chat.time = '';
+                });
         }
     },
     watch: {
