@@ -63,6 +63,11 @@ const app = new Vue({
                 .catch(error => {
                     console.log(error);
                 });
+        },
+
+        deleteSession() {
+            axios.post('/deleteSession')
+                .then(response => this.$toaster.success('Chat History is Deleted'));
         }
     },
     watch: {
@@ -109,11 +114,11 @@ const app = new Vue({
             })
             .joining((user) => {
                 this.numberOfUsers++;
-                this.$toaster.success(user.name +' just join the room')
+                this.$toaster.success(user.name +' just join the room');
             })
             .leaving((user) => {
                 this.numberOfUsers--;
-                this.$toaster.error(user.name +' just leave the room')
+                this.$toaster.error(user.name +' just leave the room');
             });
     }
 });

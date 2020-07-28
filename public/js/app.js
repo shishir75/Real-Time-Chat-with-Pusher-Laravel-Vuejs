@@ -56697,6 +56697,13 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    deleteSession: function deleteSession() {
+      var _this3 = this;
+
+      axios.post('/deleteSession').then(function (response) {
+        return _this3.$toaster.success('Chat History is Deleted');
+      });
     }
   },
   watch: {
@@ -56707,21 +56714,21 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.getOldMessages(); // receiving data
 
     Echo["private"]('chat-channel').listen('ChatEvent', function (e) {
-      _this3.chat.message.push(e.message);
+      _this4.chat.message.push(e.message);
 
-      _this3.chat.user.push(e.user);
+      _this4.chat.user.push(e.user);
 
-      _this3.chat.color.push("secondary");
+      _this4.chat.color.push("secondary");
 
-      _this3.chat.time.push(_this3.getTime());
+      _this4.chat.time.push(_this4.getTime());
 
       axios.post('/saveToSession', {
-        chat: _this3.chat
+        chat: _this4.chat
       }).then(function (response) {
         console.log(response);
       })["catch"](function (error) {
@@ -56729,21 +56736,21 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       });
     }).listenForWhisper('typing', function (e) {
       if (e.name != '') {
-        _this3.typing = 'someone is typing...';
+        _this4.typing = 'someone is typing...';
       } else {
-        _this3.typing = '';
+        _this4.typing = '';
       }
     });
     Echo.join("chat-channel").here(function (users) {
-      _this3.numberOfUsers = users.length;
+      _this4.numberOfUsers = users.length;
     }).joining(function (user) {
-      _this3.numberOfUsers++;
+      _this4.numberOfUsers++;
 
-      _this3.$toaster.success(user.name + ' just join the room');
+      _this4.$toaster.success(user.name + ' just join the room');
     }).leaving(function (user) {
-      _this3.numberOfUsers--;
+      _this4.numberOfUsers--;
 
-      _this3.$toaster.error(user.name + ' just leave the room');
+      _this4.$toaster.error(user.name + ' just leave the room');
     });
   }
 });

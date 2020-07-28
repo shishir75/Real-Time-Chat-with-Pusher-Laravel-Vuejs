@@ -19,13 +19,16 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-sm-10 offset-sm-1">
-                    <li class="list-group-item active">Chat Room <span class="badge badge-pill badge-danger ml-3">@{{ numberOfUsers }}</span></li>
+                    <li class="list-group-item active">Chat Room
+                        <span class="badge badge-pill badge-danger ml-3">@{{ numberOfUsers }}</span>
+                        <span class="btn btn-sm btn-warning float-right" @click="deleteSession">Delete Chat</span>
+                    </li>
                     <ul class="list-group" v-chat-scroll>
                         <message v-for="(text,index) in chat.message" :key="text.index" color="success" :user="chat.user[index]" :color="chat.color[index]" :time="chat.time[index]">@{{ text
                             }}</message>
                     </ul>
                     <div class="badge badge-primary badge-pill">@{{ typing }}</div>
-                    <input type="text" class="form-control" v-model="message" @keyup.enter="send" placeholder="Type your message.....">
+                    <input type="text" class="form-control mt-2" v-model="message" @keyup.enter="send" placeholder="Type your message.....">
                 </div>
 
             </div>
